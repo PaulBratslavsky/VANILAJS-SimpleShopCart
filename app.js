@@ -33,7 +33,9 @@ console.log('connected...');
             let itemName = event.target.previousElementSibling.previousElementSibling.innerHTML;
             let itemPrice = event.target.nextElementSibling.children[2].innerHTML;
 
-            console.log(event.target.nextElementSibling.children[2].innerHTML, "TEST");
+            // shows the clear cart button ( can be done better )
+            const clearCartButton = document.getElementById('clear-cart');
+            clearCartButton.classList.remove('hide');
 
             const item = {};
             item.id = itemId,
@@ -50,14 +52,13 @@ console.log('connected...');
                 <h2 class="cart-item-price">${item.price}</h2>
             `;
 
-            // get cart
-            const cart = document.getElementById('cart');
-            const total = document.querySelector('.total-container');
-            
-            cart.insertBefore(cartItem, total);
-            
+            const cartItemsContainer = document.querySelector('.cart-items-container');
+            console.log(cartItemsContainer, "SHOW ME");
+
+            cartItemsContainer.appendChild(cartItem);
+                        
             const cartTotal = document.getElementById('cart-total');
-            cartTotal.textContent = showTotal().toFixed(2);
+            cartTotal.textContent = `$${showTotal().toFixed(2)}`;
 
         })     
     });
@@ -85,20 +86,33 @@ console.log('connected...');
 // CLEAR CART
 (function(){
     const clearButton = document.getElementById('clear-cart');
-    console.log(clearButton);
 
     clearButton.addEventListener('click', function() {
-        console.log('something');
+        
         const cartTotalPrice = document.getElementById('cart-total');
         cartTotalPrice.textContent = 0;
 
-        const deleteThis = document.querySelector('.total-container');
-        console.log(deleteThis.previousElementSibling);
+        // hide clear cart button
+        const clearCartButton = document.getElementById('clear-cart');
+        clearCartButton.classList.add('hide');
 
+        // select all items in cart
+        const itemsToClear = document.querySelector('.cart-items-container');
+
+        // change to array so can loop through with forEach
+        let myItems = [...itemsToClear.children]
+
+        // loop through and delete
+        myItems.forEach( function(item) {
+            console.log(item);
+            item.parentNode.removeChild(item);
+        });
+        
+        // reset starting total to zero
         document.getElementById('total-items').textContent = 0;
     });
 
 
+})();
 
 
-})()
