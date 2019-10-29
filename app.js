@@ -30,8 +30,10 @@ console.log('connected...');
         btn.addEventListener( 'click', function(event) {
             let itemId = event.target.id;
             let fullPath = event.target.previousElementSibling.firstElementChild.src;
-            let itemName = event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
-            let itemPrice = event.target.previousElementSibling.previousElementSibling.innerHTML;
+            let itemName = event.target.previousElementSibling.previousElementSibling.innerHTML;
+            let itemPrice = event.target.nextElementSibling.children[2].innerHTML;
+
+            console.log(event.target.nextElementSibling.children[2].innerHTML, "TEST");
 
             const item = {};
             item.id = itemId,
