@@ -50,6 +50,7 @@ console.log('connected...');
                 <img src=${item.image} alt=${itemName} />
                 <h2>${item.name}</h2>
                 <h2 class="cart-item-price">${item.price}</h2>
+                <button class="cart-item-remove-button">x</button>
             `;
 
             const cartItemsContainer = document.querySelector('.cart-items-container');
@@ -104,7 +105,6 @@ console.log('connected...');
 
         // loop through and delete
         myItems.forEach( function(item) {
-            console.log(item);
             item.parentNode.removeChild(item);
         });
         
@@ -112,6 +112,48 @@ console.log('connected...');
         document.getElementById('total-items').textContent = 0;
     });
 
+
+})();
+
+// Remove Single Item
+(function() {
+    const itemsToClear = document.querySelector('.cart-items-container');
+
+   
+
+    itemsToClear.addEventListener('click', function(event){
+        if ( event.target.classList.contains('cart-item-remove-button') ) {
+            itemsToClear.removeChild(event.target.parentNode);
+
+            function subtractTotal() {
+
+                const startingAmount = parseFloat(document.getElementById('cart-total').textContent.slice(1));
+                console.log(startingAmount, "starting Amount");
+
+                const startingTotal = parseInt(document.getElementById('total-items').textContent);
+                console.log(startingTotal, "starting Total");
+
+
+                const currentItemPrice = parseFloat(event.target.previousElementSibling.textContent);
+                const newTotalAmount = startingAmount - currentItemPrice;
+                
+                console.log(newTotalAmount, 'new total');
+        
+                document.getElementById('total-items').textContent = startingTotal - 1;
+                document.getElementById('cart-total').textContent = `$${newTotalAmount.toFixed(2)}`;
+            }
+
+
+            subtractTotal();
+
+
+            if ( itemsToClear.children.length === 0 ) {
+                // hide clear cart button
+                const clearCartButton = document.getElementById('clear-cart');
+                clearCartButton.classList.add('hide');
+            }
+        }
+    })
 
 })();
 
